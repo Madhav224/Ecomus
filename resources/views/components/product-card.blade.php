@@ -13,19 +13,23 @@
                 $hover_image = $images[1] ?? $main_image;
             @endphp
 
-            <a href="{{ route('product.details', $product->product_slug) }}" class="product-img block relative aspect-[3/4] overflow-hidden">
+            <a href="{{ route('product.detail', $product->product_slug) }}" class="product-img block relative aspect-[3/4] overflow-hidden">
                 <img 
                     class="lazyload img-product w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0"
                     data-src="{{ $main_image }}"
                     src="{{ $main_image }}"
                     alt="{{ $product->product_name }}"
                 >
-                <img 
-                    class="lazyload img-hover absolute inset-0 w-full h-full object-cover  transition-opacity duration-700 group-hover:opacity-100"
-                    data-src="{{ $hover_image }}"
-                    src="{{ $hover_image }}"
-                    alt="{{ $product->product_name }}"
-                >
+                
+    @if ($hover_image)
+        <img 
+            class="lazyload img-hover absolute inset-0 w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-100"
+            data-src="{{ asset($hover_image) }}"
+            src="{{ asset($hover_image) }}"
+            alt="{{ $product->product_name }} hover"
+        >
+    @endif
+
             </a>
 
             {{-- Action Buttons --}}
@@ -40,16 +44,12 @@
                 </button>
 
                 {{-- Wishlist --}}
-                <button 
-                    wire:click="toggleWishlist('{{ encrypt_to($product->id) }}')" 
-                    class="box-icon bg-white shadow-md hover:bg-black hover:text-white border-0 !outline-none"
-                >
-                    <span class="icon icon-heart {{ $wishlistActive ? 'text-red-500' : '' }}"></span>
-                    <span class="tooltip">Add to Wishlist</span>
-                </button>
+               
+                <livewire:wishlist-button :productId="$product->id" />
+
 
                 {{-- Quick View --}}
-                <a href="javascript:void(0)" 
+                {{-- <a href="javascript:void(0)" 
                    data-url="{{ route('quick.view', $product->id) }}"
                    data-bs-toggle="modal" 
                    data-bs-target="#quick_view"
@@ -57,14 +57,14 @@
                 >
                     <span class="icon icon-view"></span>
                     <span class="tooltip">Quick View</span>
-                </a>
+                </a> --}}
                
             </div>
         </div>
 
         {{-- Product Info --}}
         <div class="card-product-info mt-3 text-center">
-            <a href="{{ route('product.details', $product->product_slug) }}" class="title link font-semibold">
+            <a href="{{ route('product.detail', $product->product_slug) }}" class="title link font-semibold">
                 {{ $product->product_name }}
             </a>
 

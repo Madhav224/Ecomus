@@ -271,7 +271,7 @@
         <!-- /Icon box -->
        
          <!-- Location -->
-        <section>
+        {{-- <section>
             <div class="container">
                 <div class="flat-location">
                     <div class="banner-map">
@@ -300,7 +300,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- /Location -->
       <!-- brand -->
             <section class="flat-spacing-1">

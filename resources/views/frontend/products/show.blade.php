@@ -1,9 +1,15 @@
 @extends('frontend.layouts.app')
 
-@section('title', $product->product_name)
+@section('title')
+    @isset($product)
+        {{ $product->product_name }}
+    @else
+        Product | My Shop
+    @endisset
+@endsection
 
 @section('content')
-<div class="container my-8">
+{{-- <div class="container my-8">
     <div class="row">
         <!-- Product Images -->
         <div class="col-md-6">
@@ -63,7 +69,7 @@
 
             <!-- Add to Cart -->
             <div class="mt-4">
-                <form method="POST" {{--action="{{ route('cart.add', $product->product_slug) }}"--}} >
+                <form method="POST" action="{{ route('cart.add', $product->product_slug) }}" >
                     @csrf
                     <button type="submit" class="btn btn-primary">Add to Cart</button>
                 </form>
@@ -85,5 +91,75 @@
         <p>{{ $product->product_details['full_description'] }}</p>
     </div>
     @endif
-</div>
+</div> --}}
+
+<style>
+.color-batch {
+    display: inline-block;  
+}
+.color-pill-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+.color-pill-label:hover {
+    border-color: #000000;
+}
+label.size-pill {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* makes it round */
+    border: 2px solid #353232d5 !important;
+    color: #1b1c1d;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+    transition: all 0.2s;
+    text-align: center;
+      text-transform: uppercase; 
+      margin-bottom: 30px;
+}
+label.size-pill:hover {
+  border: 2px solid #000 !important;
+}
+</style>
+
+
+         <livewire:product-detail :slug="$slug" />
+
+
+         
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const thumbsSwiper = new Swiper(".tf-product-media-thumbs", {
+        direction: "vertical",
+        slidesPerView: 4,
+        spaceBetween: 10,
+        watchSlidesProgress: true,
+    });
+
+    const mainSwiper = new Swiper(".tf-product-media-main", {
+        loop: true,
+        navigation: {
+            nextEl: ".thumbs-next",
+            prevEl: ".thumbs-prev",
+        },
+        thumbs: {
+            swiper: thumbsSwiper,
+        },
+    });
+});
+
+</script>
+
+       
 @endsection

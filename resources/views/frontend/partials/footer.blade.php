@@ -8,19 +8,27 @@
                                 <div class="footer-infor">
                                     <div class="footer-logo">
                                         <a href="index.html">
-                                            <img src="{{asset('frontend/images/logo/logo.svg')}}" alt="">
+                                            <img   src="{{ asset('images/logo/' . setting('site_logo')) }}" 
+                                    alt="{{ setting('site_name') }}" >
                                         </a>
                                     </div>
                                     <ul>
-                                        <li>
-                                            <p>Address: 1234 Fashion Street, Suite 567, <br> New York, NY 10001</p>
+                                       <li>
+                                            <p>
+                                                Address: {{ setting('site_postal_address') }}
+                                            </p>
                                         </li>
                                         <li>
-                                            <p>Email: <a href="#">info@fashionshop.com</a></p>
+                                            <p>
+                                                Email: <a href="mailto:{{ setting('site_email') }}">{{ setting('site_email') }}</a>
+                                            </p>
                                         </li>
                                         <li>
-                                            <p>Phone: <a href="#">(212) 555-1234</a></p>
+                                            <p>
+                                                Phone: <a href="tel:{{ setting('site_contact') }}">{{ setting('site_contact') }}</a>
+                                            </p>
                                         </li>
+
                                     </ul>
                                     <a href="{{route('ourstore')}}" class="tf-btn btn-line">Get direction<i
                                             class="icon icon-arrow1-top-left"></i></a>

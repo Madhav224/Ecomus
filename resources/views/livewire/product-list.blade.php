@@ -97,11 +97,11 @@
                                             <span class="title-price">Price :</span>
                                             <div class="caption-price">
                                                 <div class="price-val" x-ref="minValue" id="price-min-value">
-                                                    ${{ $filter['min_price'] }}
+                                                    ₹{{ $filter['min_price'] }}
                                                 </div>
                                                 <span>-</span>
                                                 <div class="price-val" x-ref="maxValue" id="price-max-value">
-                                                    ${{ $filter['max_price'] }}
+                                                    ₹{{ $filter['max_price'] }}
                                                 </div>
                                             </div>
                                         </div>
@@ -337,6 +337,7 @@
                                     <div wire:loading.remove>
                                         {{-- wire:target="loadProducts" --}}
                                         <x-product-card :slug="$product?->product_slug" />
+                                            
                                     </div>
                                   
                 
@@ -364,4 +365,4 @@
         </div>
 
 
-</div>
+</div> 

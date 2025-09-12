@@ -64,7 +64,7 @@ class HomeController extends Controller
         // For now, just pass empty products collection
         $products = collect();
         
-        return view('frontend.category-products', compact('category', 'products'));
+        return view('frontend.category-products', compact('category', 'products' , 'slug'));
     }
 
 

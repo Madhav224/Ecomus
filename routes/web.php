@@ -38,6 +38,8 @@ use App\Http\Controllers\Frontend\FrontBlogController;
 use App\Http\Controllers\Frontend\FrontShopController;
 use App\Http\Controllers\Frontend\FrontProductController;
 use App\Livewire\ProductList;
+use App\Livewire\ProductDetail;
+use App\Livewire\WishlistPage;
 
 #===================================================================================================================
 #===================================================================================================================
@@ -45,7 +47,7 @@ use App\Livewire\ProductList;
 
 
 Route::prefix('user')->group(function () {
-    Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('frontend.login.form');
+    Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('client.login');
     Route::post('/login', [UserAuthController::class, 'login'])->name('frontend.login');
 
     Route::get('/register', [UserAuthController::class, 'showRegisterForm'])->name('frontend.register.form');
@@ -58,32 +60,44 @@ Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequest
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+
+    Route::middleware('auth')->group(function () {
+     Route::get('/wishlist', WishlistPage::class)->name('wishlist');
+});
+
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [HomeController::class, 'allCategories'])->name('frontend.categories');
 Route::get('/category/{slug}', [HomeController::class, 'categoryProducts'])->name('frontend.category');
 
+// Filter + shop page with optional category slug
+Route::get('/shop/{categorieslug?}', function ($categorieslug = null) {
+    return view('frontend.shop', ['categorieslug' => $categorieslug]);
+})->name('shop');
+
 Route::get('/blog', [FrontBlogController::class, 'index'])->name('blog');
 
 
-Route::get('/shop', [FrontShopController::class, 'index'])->name('shop');
+// Route::get('/shop', [FrontShopController::class, 'index'])->name('shop');
 
-// Route::get('/shop/{categorieslug}', ProductList::class)->name('frontend.shop.category');
+
 
 Route::get('/quick-view/{id}', [FrontShopController::class, 'quickView'])->name('quick.view');
 
+// Route::get('/product/{slug}', ProductDetail::class)->name('product.detail');
+Route::get('/product/{slug}', function ($slug) {
+    return view('frontend.products.show', ['slug' => $slug]);
+})->name('product.detail');
 
-Route::get('/product/{product_slug}', [FrontProductController::class, 'show'])->name('product.details');
+// Route::get('/product/{product_slug}', [FrontProductController::class, 'show'])->name('product.details');
 
 Route::get('/frontproduct', function () {
     return view('frontend.product');
 })->name('product');
 
 
-Route::get('/wishlist', function () {
-    return view('frontend.wishlist'); 
-})->name('wishlist');
 
 Route::get('/cart', function () {
     return view('frontend.cart');

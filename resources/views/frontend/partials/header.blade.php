@@ -1,4 +1,114 @@
  <!-- Header -->
+<style>
+.search-bar {
+  --size: 32px;
+  --padding: 8px;
+  --expanded-width: 200px;
+
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+
+  border: 1px solid transparent; /* fallback for layout stability */
+  box-shadow: 0 0 0 1px #d6d9e2; /* default border effect */
+
+  overflow: visible;
+  padding: var(--padding);
+  width: var(--size);
+  height: var(--size);
+  transition: width 0.5s, box-shadow 0.5s;
+}
+
+
+.search-bar:focus-within {
+  width: var(--expanded-width);
+  box-shadow: 0 0 0 1px #2e2e2e; /* darker border on focus */
+}
+
+
+.search-input {
+  font-size: 18px;
+  color: #3a3a3a;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin-left: 1rem;
+  flex: 1;
+   box-shadow: none;
+
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.search-bar:focus-within .search-input  {
+  opacity: 1;
+
+}
+
+.search-submit {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #fff;
+  background-color: #fff ;
+  border-radius: 50%;
+  border: none;
+  width: calc(var(--size) - var(--padding) * 2);
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 4px;
+    padding: 0;
+    margin-top: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.autocomplete-dropdown li {
+    list-style: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.autocomplete-dropdown li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.autocomplete-dropdown li:hover {
+    background-color: #f7f7f7;
+}
+
+.autocomplete-dropdown i.icon-search {
+    font-size: 14px;
+    color: #999;
+}
+
+@media (max-width: 575.98px) {
+  .search-bar {
+    /* width: 120px; */
+    --expanded-width: 130px; /* smaller width on xs devices */
+  }
+}
+
+</style>
         <header id="header" class="header-default header-style-2">
             <div class="main-header line">
                 <div class="container-full px_15 lg-px_40">
@@ -40,16 +150,20 @@
                         </div>
                         <div class="col-xl-2 col-md-4 col-6 text-center">
                             <a href="{{route('home')}}" class="logo-header">
-                                <img src="{{asset('frontend/images/logo/logo%402x.png')}}" alt="logo" class="logo">
+                               <img 
+                                    src="{{ asset('images/logo/' . setting('site_logo')) }}" 
+                                    alt="{{ setting('site_name') }}" 
+                                    class="logo">
                             </a>
                         </div>
 
 
                         <div class="col-xl-5 col-md-4 col-3">
                             <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
-                                <li class="nav-search"><a href="#canvasSearch" data-bs-toggle="offcanvas"
-                                        aria-controls="offcanvasLeft" class="nav-icon-item"><i
-                                            class="icon icon-search"></i></a></li>
+                              
+                                <li class="nav-search menu-item position-relative">
+                                     @livewire('search-bar')              
+                                </li>            
                                 <li class="nav-account">
                                     @guest
                                         {{-- Guest: Show login modal trigger --}}
@@ -94,9 +208,27 @@
                                     @endauth
                                 </li>
 
-                                <li class="nav-wishlist"><a href="{{route('wishlist')}}" class="nav-icon-item"><i
-                                            class="icon icon-heart"></i><span class="count-box">0</span></a></li>
-                                <li class="nav-cart"><a href="{{route('cart')}}" 
+                                <li class="nav-wishlist">
+                                    <a href="{{route('wishlist')}}" class="nav-icon-item">
+                                        <i class="icon icon-heart"></i>
+                                        <span class="count-box" >
+                                             {{ auth()->check() ? \App\Models\Wishlist::where('user_id', auth()->id())->count() : 0 }}
+                                        </span>                                    
+                                    </a> 
+                                    {{-- <a href="{{ route('wishlist') }}" class="nav-icon-item"
+   x-data="{ count: {{ auth()->check() ? \App\Models\Wishlist::where('user_id', auth()->id())->count() : 0 }} }"
+   x-init="
+        window.addEventListener('wishlist-updated', event => {
+            count = event.detail.count
+        })
+   "
+>
+    <i class="icon icon-heart"></i>
+    <span class="count-box" x-text="count"  ></span>
+</a>
+  --}}
+                                </li>
+                                <li class="nav-cart d-none d-md-flex"><a href="{{route('cart')}}" 
                                         class="nav-icon-item"><i class="icon icon-bag"></i><span
                                             class="count-box">0</span></a></li>
 
@@ -152,19 +284,7 @@
                                             <li><a href="{{route('checkout')}}"
                                                     class="menu-link-text link text_black-2 position-relative">Check
                                                      out</a></li>
-                                            <li class="menu-item-2">
-                                                <a href="#" class="menu-link-text link text_black-2">Payment</a>
-                                                <div class="sub-menu submenu-default">
-                                                    <ul class="menu-list">
-                                                        <li><a href="payment-confirmation.html"
-                                                                class="menu-link-text link text_black-2">Payment
-                                                                Confirmation</a></li>
-                                                        <li><a href="payment-failure.html"
-                                                                class="menu-link-text link text_black-2">Payment
-                                                                Failure</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
+                                           
                                             {{-- <li class="menu-item-2">
                                                 <a href="#" class="menu-link-text link text_black-2">My account</a>
                                                 <div class="sub-menu submenu-default">
@@ -283,26 +403,58 @@
     </div>
     <!-- /toolbar-bottom -->
 
+     <!-- modal delivery_return -->
+    <div class="modal modalCentered fade modalDemo tf-product-modal modal-part-content" id="delivery_return">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Shipping & Delivery</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="overflow-y-auto">
+                    <div class="tf-product-popup-delivery">
+                        <div class="title">Delivery</div>
+                        <p class="text-paragraph">All orders shipped with UPS Express.</p>
+                        <p class="text-paragraph">Always free shipping for orders over US $250.</p>
+                        <p class="text-paragraph">All orders are shipped with a UPS tracking number.</p>
+                    </div>
+                    <div class="tf-product-popup-delivery">
+                        <div class="title">Returns</div>
+                        <p class="text-paragraph">Items returned within 14 days of their original shipment date in same
+                            as new condition will be eligible for a full refund or store credit.</p>
+                        <p class="text-paragraph">Refunds will be charged back to the original form of payment used for
+                            purchase.</p>
+                        <p class="text-paragraph">Customer is responsible for shipping charges when making returns and
+                            shipping/handling fees of original purchase is non-refundable.</p>
+                        <p class="text-paragraph">All sale items are final purchases.</p>
+                    </div>
+                    <div class="tf-product-popup-delivery">
+                        <div class="title">Help</div>
+                        <p class="text-paragraph">Give us a shout if you have any other questions and/or concerns.</p>
+                        <p class="text-paragraph">Email: <a href="mailto:{{ setting('site_email') }}">{{ setting('site_email') }}</a></p>
+                        <p class="text-paragraph mb-0">Phone: <a href="tel:{{ setting('site_contact') }}">{{ setting('site_contact') }}</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal delivery_return -->
+   
+
 
     <!-- mobile menu -->
     <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
         <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+        
         <div class="mb-canvas-content">
             <div class="mb-body">
                 <ul class="nav-ul-mb" id="wrapper-menu-navigation">
                     <li class="nav-mb-item">
-                        <a href="#dropdown-menu-one" class="collapsed mb-menu-link current" data-bs-toggle="collapse"
-                            aria-expanded="true" aria-controls="dropdown-menu-one">
+                        <a href="{{route('home')}}" class="collapsed mb-menu-link current" >
                             <span>Home</span>
-                            <span class="btn-open-sub"></span>
+                            
                         </a>
-                        <div id="dropdown-menu-one" class="collapse">
-                            <ul class="sub-nav-menu">
-                                <li><a href="index.html" class="sub-nav-link">Home Fashion 01</a></li>
-                                <li><a href="home-giftcard.html" class="sub-nav-link">Home Gift Card</a></li>
-                                <li><a href="home-headphone.html" class="sub-nav-link">Home Headphone</a></li>
-                            </ul>
-                        </div> 
+                       
                     </li>
                     <li class="nav-mb-item">
                         <a href="{{route('shop')}}" class="collapsed mb-menu-link current" 
@@ -352,19 +504,7 @@
                                             <li><a href="{{route('checkout')}}"
                                                     class="menu-link-text link text_black-2 position-relative">Check
                                                      out</a></li>
-                                            <li class="menu-item-2">
-                                                <a href="#" class="menu-link-text link text_black-2">Payment</a>
-                                                <div class="sub-menu submenu-default">
-                                                    <ul class="menu-list">
-                                                        <li><a href="payment-confirmation.html"
-                                                                class="menu-link-text link text_black-2">Payment
-                                                                Confirmation</a></li>
-                                                        <li><a href="payment-failure.html"
-                                                                class="menu-link-text link text_black-2">Payment
-                                                                Failure</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
+                                           
                             </ul>
                         </div>
 
@@ -379,26 +519,55 @@
                 <div class="mb-other-content">
                     <div class="d-flex group-icon">
                         <a href="{{route('wishlist')}}" class="site-nav-icon"><i class="icon icon-heart"></i>Wishlist</a>
-                        <a href="#" class="site-nav-icon"><i class="icon icon-search"></i>Search</a>
+                        {{-- <a href="#" class="site-nav-icon"><i class="icon icon-search"></i>Search</a> --}}
+                          <div class="search-bar-container" >
+            @livewire('search-bar')
+        </div>
+
                     </div>
                     <div class="mb-notice">
                         <a href="{{route('contact')}}" class="text-need">Need help ?</a>
                     </div>
                     <ul class="mb-info">
-                        <li>Address: 1234 Fashion Street, Suite 567, <br> New York, NY 10001</li>
-                        <li>Email: <b>info@fashionshop.com</b></li>
-                        <li>Phone: <b>(212) 555-1234</b></li>
+                        <li>Address: {{ setting('site_postal_address') }}</li>
+                        <li>Email: <b><a href="mailto:{{ setting('site_email') }}">{{ setting('site_email') }}</a></b></li>
+                        <li>Phone: <b><a href="tel:{{ setting('site_contact') }}">{{ setting('site_contact') }}</a></b></li>
                     </ul>
                 </div>
             </div>
-            <div class="mb-bottom">
-                <a href="#login" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>
+            <div class="mb-bottom d-flex justify-content-between ">
+                @guest
+                    <a href="#login"  data-bs-toggle="modal" class="site-nav-icon">
+                        <i class="icon icon-account"></i>Login</a>                      
+                 @endguest
+
+                                    @auth
+                                        {{-- Authenticated: Show dropdown --}}
+                                
+                                            <a href="#" class="nav-icon-item " >
+                                                <span class="user-avatar ml-3">
+                                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                                </span>
+                                                <div class="toolbar-label">Account</div>
+                                            </a>
+                                            <a href=""   class="site-nav-icon right-end ">
+                                                <form method="POST" action="{{ route('frontend.logout') }}">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item d-flex align-items-center  py-2 rounded text-danger">
+                                                            <i class="icon icon-logout"></i>
+                                                            {{-- <span>Logout</span> --}}
+                                                        </button>
+                                                    </form></a>
+
+                                            
+                                        
+                                    @endauth
             </div>
         </div>
     </div>
     <!-- /mobile menu -->
 
-    <!-- canvasSearch -->
+    {{-- <!-- canvasSearch -->
     <div class="offcanvas offcanvas-end canvas-search" id="canvasSearch">
         <div class="canvas-wrapper">
             <header class="tf-search-head">
@@ -417,26 +586,14 @@
                         <button class="" type="submit"><i class="icon-search"></i></button>
                     </form>
                 </div>
+
             </header>
             <div class="canvas-body p-0">
                 <div class="tf-search-content">
                     <div class="tf-cart-hide-has-results">
                         <div class="tf-col-quicklink">
                             <div class="tf-search-content-title fw-5">Quick link</div>
-                            <ul class="tf-quicklink-list">
-                                <li class="tf-quicklink-item">
-                                    <a href="#" class="">Fashion</a>
-                                </li>
-                                <li class="tf-quicklink-item">
-                                    <a href="#" class="">Men</a>
-                                </li>
-                                <li class="tf-quicklink-item">
-                                    <a href="#" class="">Women</a>
-                                </li>
-                                <li class="tf-quicklink-item">
-                                    <a href="#" class="">Accessories</a>
-                                </li>
-                            </ul>
+                          
                         </div>
                         <div class="tf-col-content">
                             <div class="tf-search-content-title fw-5">Need some inspiration?</div>
@@ -447,7 +604,7 @@
             </div>
         </div>
     </div>
-    <!-- /canvasSearch -->
+    <!-- /canvasSearch --> --}}
 
     <!-- toolbarShopmb -->
     <div class="offcanvas offcanvas-start canvas-mb toolbar-shop-mobile" id="toolbarShopmb">

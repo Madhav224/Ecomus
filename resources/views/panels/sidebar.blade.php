@@ -11,7 +11,7 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
                 {{-- <a class="navbar-brand" href="{{ url('/admin') }}"> --}}
-                <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+                <a class="navbar-brand mt-2" href="{{ route('admin.dashboard') }}">
                     <span class="brand-logo">
                         <img src="{{ site_logo() }}" alt="{{ setting('site_name') }}"
                             alt="{{ setting('site_name') }}" />

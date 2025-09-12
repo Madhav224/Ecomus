@@ -71,7 +71,7 @@
 }
 </style>
 
-
+<livewire:product-list :categorieslug="$categorieslug" />
       <!-- page-title -->
         <div class="tf-page-title">
             <div class="container-full">

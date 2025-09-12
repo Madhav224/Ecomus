@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'E-Commerce')</title>
+    <title>@yield('title', 'Ecomus')</title>
  <!-- font -->
     <link rel="stylesheet" href="fonts/fonts.css">
     <!-- Icons -->
@@ -13,8 +13,9 @@
     <link rel="stylesheet" type="text/css" href="{{asset('frontend/css/styles.css')}}" />
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="{{asset('frontend/images/logo/favicon.png')}}">
-    <link rel="apple-touch-icon-precomposed" href="{{asset('frontend/images/logo/favicon.png')}}">
+    <link rel="shortcut icon" href="{{ asset('images/logo/' . setting('site_favicon_logo')) }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/logo/' . setting('site_favicon_logo')) }}">
+
     <style>.user-avatar {
     display: inline-flex;
     align-items: center;
@@ -30,6 +31,13 @@
 }
 .nav-account .dropdown-toggle::after {
     display: none !important;
+}
+
+body {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge */
+  user-select: none;         /* Standard */
 }
 </style>
   @livewireStyles
@@ -64,7 +72,13 @@
     <script src="{{asset('frontend/js/shop.js')}}"></script>
     <script src="{{asset('frontend/js/nouislider.min.js')}}"></script>
     
-  
+  <script>
+    document.addEventListener("livewire:update", () => {
+    // re-init your filter scripts
+    initShopFilters();
+});
+
+  </script>
   
     @livewireScripts
 </body>
