@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Wishlist')
+@section('title', 'Check Out')
 
 @section('content')
 
@@ -14,7 +14,12 @@
         </div>
         <!-- /page-title -->
 
-        <!-- page-cart -->
+
+
+            @livewire('checkout-page')
+
+
+        {{-- <!-- page-cart -->
         <section class="flat-spacing-11">
             <div class="container">
                 <div class="tf-page-cart-wrap layout-2">
@@ -215,7 +220,7 @@
                 </div>
             </div>
         </section>
-        <!-- page-cart -->
+        <!-- page-cart --> --}}
 
 
 @endsection

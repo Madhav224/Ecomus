@@ -35,13 +35,8 @@
             {{-- Action Buttons --}}
             <div class="list-product-btn absolute top-3 right-3 flex flex-col gap-2">
                 {{-- Add to Cart --}}
-                <button 
-                    wire:click="addToCart('{{ encrypt_to($product->id) }}')" 
-                    class="box-icon bg-white shadow-md hover:bg-black hover:text-white border-0 !outline-none"
-                >
-                    <span class="icon icon-bag"></span>
-                    <span class="tooltip">Add to cart</span>
-                </button>
+                <livewire:cart-button :product-id="$product->id" {{--:variant-id="$selectedVariantId"--}} />
+
 
                 {{-- Wishlist --}}
                

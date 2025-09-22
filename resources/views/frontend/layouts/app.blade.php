@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'Ecomus')</title>
  <!-- font -->
-    <link rel="stylesheet" href="fonts/fonts.css">
+    {{-- <link rel="stylesheet" href="fonts/fonts.css"> --}}
     <!-- Icons -->
     <link rel="stylesheet" href="{{asset('frontend/fonts/font-icons.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.min.css')}}">

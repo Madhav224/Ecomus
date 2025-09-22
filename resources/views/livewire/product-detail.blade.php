@@ -194,22 +194,20 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="tf-product-info-quantity" x-data="{ qty: @entangle('quantity') }">
-    <div class="quantity-title fw-6">Quantity</div>
-    <div class="wg-quantity">
-        <span class="btn-quantity " @click="if(qty > 1) qty--">-</span>
-        
-        <input type="text" class="quantity-product" x-model="qty" min="1" readonly>
-        
-        <span class="btn-quantity " @click="qty++">+</span>
-    </div>
-</div>
+                                    {{-- <div class="tf-product-info-quantity" x-data="{ qty: @entangle('quantity') }">
+                                        <div class="quantity-title fw-6">Quantity</div>
+                                        <div class="wg-quantity">
+                                            <span class="btn-quantity " @click="if(qty > 1) qty--">-</span>
+                                            
+                                            <input type="text" class="quantity-product" x-model="qty" min="1" readonly>
+                                            
+                                            <span class="btn-quantity " @click="qty++">+</span>
+                                        </div>
+                                    </div> --}}
 
                                     <div class="tf-product-info-buy-button">
                                         <form class="">
-                                            <a href="#"
-                                                class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"><span>Add
-                                                    to cart &nbsp;</span></a>
+                                            <livewire:cart-button :product-id="$product->id" {{--:variant-id="$selectedVariantId"--}} />
                                             <div 
                                                 class="tf-product-btn-wishlist">
                                                 <livewire:wishlist-button :productId="$product->id" />

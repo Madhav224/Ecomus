@@ -142,13 +142,11 @@
                                 <div class="grid-layout loadmore-item" data-grid="grid-4">
                                     @foreach ($products as $product)
                                     <div wire:loading.remove>
-                                        {{-- wire:target="loadProducts" --}}
+                                        {{-- wire:target="loadProducts" --}}    
                                         <x-product-card :slug="$product?->product_slug" />
                                     </div>
                                     @endforeach
                                 </div>
-
-                               
                             </div>
 
 
@@ -311,14 +309,14 @@
                             @forelse($brands as $brand)
                                 <div class="swiper-slide">
                                     <div class="brand-item">
-                                        <a href="{{ url($brand->brand_path) }}" title="{{ $brand->brand_name }}">
+                                        <a href="#{{--{{ url($brand->brand_path) }}--}}" title="{{ $brand->brand_name }}" >
                                             <img class="lazyload brand-logo" 
                                                 data-src="{{ asset($brand->brand_image) }}"
                                                 src="{{ asset($brand->brand_image) }}" 
                                                 alt="{{ $brand->brand_name }}"
                                                 onerror="this.src='{{ asset('frontend/images/brand/default-brand.png') }}'">
                                         </a>
-                                    </div>
+                                    </div>    
                                 </div>
                             @empty
                                 <!-- Fallback if no brands -->

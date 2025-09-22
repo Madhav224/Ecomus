@@ -18,7 +18,7 @@ class ProductVariant extends Model
         'product_variant_images_url',
         'variant_combination_names',
         'variant_ids_names',
-        'variant_child_ids',
+        // 'variant_child_ids',
         'variant_parent_ids',
     ];
 

@@ -7,7 +7,7 @@
                             <div class="col-xl-3 col-md-6 col-12">
                                 <div class="footer-infor">
                                     <div class="footer-logo">
-                                        <a href="index.html">
+                                        <a href="{{route('home')}}">
                                             <img   src="{{ asset('images/logo/' . setting('site_logo')) }}" 
                                     alt="{{ setting('site_name') }}" >
                                         </a>
@@ -65,7 +65,7 @@
                                         <a href="{{route('faq')}}" class="footer-menu_item">Shipping</a>
                                     </li>
                                     <li>
-                                        <a href="{{route('faq')}}" class="footer-menu_item">Terms &amp;
+                                        <a href="{{route('terms-conditions')}}" class="footer-menu_item">Terms &amp;
                                             Conditions</a>
                                     </li>
                                     <li>
@@ -75,7 +75,7 @@
                                         <a href="{{route('shop')}}" class="footer-menu_item">Compare</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="footer-menu_item">My Wishlist</a>
+                                        <a href="{{route('wishlist')}}" class="footer-menu_item">My Wishlist</a>
                                     </li>
                                 </ul>
                             </div>
@@ -86,7 +86,7 @@
                                 <div class="footer-heading footer-heading-moblie">
                                     <h6>About us</h6>
                                 </div>
-                                <ul class="footer-menu-list tf-collapse-content">
+                                <ul class="footer-menu-list tf-collapse-content"> 
                                     <li>
                                         <a href="{{route('about-us')}}" class="footer-menu_item">Our Story</a>
                                     </li>
@@ -97,7 +97,7 @@
                                         <a href="{{route('contact')}}" class="footer-menu_item">Contact Us</a>
                                     </li>
                                     <li>
-                                        <a href="#login" class="footer-menu_item">Account</a>
+                                        <a href="{{route('account.profile')}}" class="footer-menu_item">Account</a>
                                     </li>
                                 </ul>
                             </div>
@@ -142,7 +142,7 @@
                             <div class="col-12">
                                 <div
                                     class="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-between align-items-center">
-                                    <div class="footer-menu_item">© 2025 Ecomus Store. All Rights Reserved| Developed by Madhav Gediya </div>
+                                    <div class="footer-menu_item">© 2025 Ecomus Store. All Rights Reserved  | Developed by Madhav Gediya </div>
                                     <div class="tf-payment">
                                         <img src="{{asset('frontend/images/payments/visa.png')}}" alt="">
                                         <img src="{{asset('frontend/images/payments/img-1.png')}}" alt="">
@@ -153,7 +153,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </footer>

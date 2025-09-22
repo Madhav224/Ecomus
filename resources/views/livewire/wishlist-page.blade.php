@@ -15,9 +15,17 @@
                     {{-- <x-product-card :product="$item->product" in-wishlist="true" /> --}}
                          <x-product-card :slug="$item->product?->product_slug" />
                 @empty
-                    <p class="text-center w-full">Your wishlist is empty.</p>
+                    <div class="text-center w-full" hidden>
+                        
+                        </div>
                 @endforelse
             </div>
+            @if($wishlistItems->isEmpty())
+                    <div class="text-center w-full">
+                         <img src="{{asset('upload/no-product-found.webp')}} " alt="">
+                        <h5>Your wishlist is empty.</h5></div>
+
+            @endif
         </div>
 </section>
 <!-- /Section Product -->

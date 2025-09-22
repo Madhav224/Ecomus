@@ -1,5 +1,18 @@
 <div>
 
+    <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="heading text-center">New Arrival</div>
+                        <p class="text-center text-2 text_black-2 mt_5">Shop through our latest selection of Fashion</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /page-title --> 
+
   <section class="flat-spacing-1">
             <div class="container">
                 <div class="tf-shop-control grid-2 align-items-center">
@@ -46,23 +59,34 @@
                             <!-- Category list -->
                             <div id="categories" class="collapse show">
                                 <ul class="list-categoris mb_36">
-                                   @foreach($parent_categories as  $parent_cate)
+                                    @foreach($parent_categories as $parent_cate)
+                                        <li class="cate-item">
+                                            <label for="cate{{ $parent_cate->id }}">
+                                                <input type="checkbox"
+                                                    wire:model.live="filter.categories_ids"
+                                                    value="{{ $parent_cate->id }}"
+                                                    id="cate{{ $parent_cate->id }}">
+                                                {{ $parent_cate->categorie_name }}
+                                            </label>
+                                        </li>
+                                    @endforeach
+                                   {{-- @foreach($parent_categories as  $parent_cate)
                                         <li class="cate-item">
                                              <label
                                             data-item="{{ $parent_cate?->categorie_slug }}"
                                             for="cate{{ $parent_cate?->categorie_slug . $parent_cate?->id }}">
 
                                             
-                                                <input type="checkbox" wire:model.live="filter.categories_ids"
+                                                <input type="checkbox" wire:model="filter.categories_ids"
                                                     value="{{ $parent_cate?->allCategoryIds() }}"
                                                     name="categories_ids[]"
-                                                    id="cate{{ $parent_cate?->categorie_slug . $parent_cate?->id }}">
+                                                    id="cate{{ $parent_cate?->categorie_slug . $parent_cate?->id }}" >
                                                 {{ $parent_cate?->categorie_name }}
                                             
                                            
                                         </label>
                                         </li>
-                                    @endforeach
+                                    @endforeach --}}
                                 </ul>
                             </div>
                         </div>
@@ -110,31 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                         {{-- <div class="widget-facet">
-                            <div class="facet-title" data-bs-target="#size" data-bs-toggle="collapse" aria-expanded="true"
-                                aria-controls="size">
-                                <span>Size</span>
-                                <span class="icon icon-arrow-up"></span>
-                            </div>
-                            <div id="size" class="collapse show">
-                                <ul class="tf-filter-group d-flex flex-wrap gap-3" style="list-style:none; padding:0; margin:0;">
-                                    @foreach($variant_size as $size)
-                                        <li class="list-item d-flex gap-12 align-items-center">
-                                            <input type="checkbox" 
-                                                name="sizes[]" 
-                                                class="tf-check tf-check-size" 
-                                                value="{{ $size->id }}" 
-                                                id="size-{{ $size->id }}" 
-                                                wire:model.live="filter.variant_sizes">
-                                            <label for="size-{{ $size->id }}" class="label ms-1">
-                                                <span>{{ $size->variant_name }}</span>&nbsp;
-                                               
-                                            </label>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div> --}}
+                        
 
                         <div class="widget-facet">
                             <div class="facet-title" data-bs-target="#size" data-bs-toggle="collapse" aria-expanded="true"
@@ -173,7 +173,7 @@
                             <div id="color" class="collapse show">
                                 <div class="d-flex flex-wrap gap-2 mb_30">
                                     @foreach($variant_color as $color)
-                                            @php
+                                            @php  
                                                 $bgColor =
                                                     $color?->variant_value !== '#000000'
                                                         ? $color?->variant_value
@@ -186,7 +186,7 @@
                                                 id="color-{{ $color->id }}" 
                                                 value="{{ $color->id }}" 
                                                 wire:model.live="filter.variant_colors">
-
+ 
                                             <!-- Color circle + name -->
                                             <label for="color-{{ $color->id }}" 
                                                 class="color-pill-label @if(in_array($color->id, $filter['variant_colors'])) active @endif">
@@ -199,53 +199,7 @@
                             </div>
                         </div>
 
-                       {{-- <div class="widget-facet">
-                                <div class="facet-title" data-bs-target="#sale-products" data-bs-toggle="collapse"
-                                    aria-expanded="true" aria-controls="sale-products">
-                                    <span>Sale products</span>
-                                    <span class="icon icon-arrow-up"></span>
-                                </div>
-                                <div id="sale-products" class="collapse show">
-                                    <div class="widget-featured-products mb_36">
-
-                                        @foreach($saleProducts as $product)
-                                            @php
-                                                // Decode images if stored as JSON
-                                                $images = is_array($product->product_images)
-                                                    ? $product->product_images
-                                                    : (json_decode($product->product_images, true) ?? []);
-
-                                                // Thumbnail
-                                                $thumbnail = $product->product_thumbnail_image ?? ($images[0] ?? 'frontend/images/products/default.png');
-                                            @endphp
-
-                                            <div class="featured-product-item">
-                                                <a href="{{ url('product/'.$product->id) }}" class="card-product-wrapper">
-                                                    <img class="lazyload img-product"
-                                                        data-src="{{ asset($thumbnail) }}"
-                                                        src="{{ asset($thumbnail) }}"
-                                                        alt="{{ $product->product_name }}">
-                                                </a>
-                                                <div class="card-product-info">
-                                                    <a href="{{ url('product/'.$product->id) }}" class="title link">
-                                                        {{ $product->product_name }}
-                                                    </a>
-                                                    <span class="price">
-                                                        @if($product->product_discount)
-                                                            <del>₹{{ number_format($product->product_mrp, 2) }}</del>
-                                                            ₹{{ number_format($product->product_price, 2) }}
-                                                        @else
-                                                            ₹{{ number_format($product->product_price, 2) }}
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        @endforeach 
-
-                                    </div>
-                                </div>
-                            </div> --}}
-
+                     
                         <div class="widget-facet">
                             <div class="facet-title" data-bs-target="#shipping" data-bs-toggle="collapse"
                                 aria-expanded="true" aria-controls="shipping">
@@ -276,26 +230,9 @@
                                         </div>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> 
                         </div>
-                       {{-- <div class="widget-facet">
-                            <div class="facet-title" data-bs-target="#gallery" data-bs-toggle="collapse"
-                                aria-expanded="true" aria-controls="gallery">
-                                <span>Gallery</span>
-                                <span class="icon icon-arrow-up"></span>
-                            </div>
-                            <div id="gallery" class="collapse show">
-                                <div class="grid-3 gap-4 mb_36">
-                                    @foreach($galleryImages as $item)
-                                        <a href="{{ $item['url'] }}" class="item-gallery ratio ratio-1x1">
-                                            <img class="lazyload img-fluid w-100 h-100 object-fit-cover"
-                                                data-src="{{ $item['image'] }}"
-                                                alt="{{ $item['name'] }}">
-                                        </a>
-                                    @endforeach 
-                                </div>
-                            </div>
-                        </div> --}}
+                      
 
                         <div class="widget-facet">
                             <div class="facet-title" data-bs-target="#follow" data-bs-toggle="collapse"
@@ -324,24 +261,27 @@
                             </div>
                         </div>
                     </aside>
-                    <div class="wrapper-control-shop tf-shop-content">
+                    <div class="wrapper-control-shop tf-shop-content" >
                         <div class="meta-filter-shop">
-                            <div id="product-count-grid" class="count-text"></div>
-                            <div id="product-count-list" class="count-text"></div>
-                            <div id="applied-filters"></div>
-                            <button id="remove-all" class="remove-all-filters" style="display: none;">Remove All <i
-                                    class="icon icon-close"></i></button>
-                        </div>   <div class="tab-pane active show" id="bestSeller" role="tabpanel">
+                          
+                            
+                            
+                        </div>   <div class="tab-pane active show"  role="tabpanel">
                                 <div class="grid-layout loadmore-item mb_30" data-grid="grid-4">
-                                 @foreach ($products as $product)
+                                 {{-- @foreach ($products as $product)
                                     <div wire:loading.remove>
-                                        {{-- wire:target="loadProducts" --}}
+                                       
                                         <x-product-card :slug="$product?->product_slug" />
                                             
                                     </div>
-                                  
                 
-                                 @endforeach
+                                 @endforeach --}}
+
+                                 @foreach ($products as $product)
+                                    <div wire:key="product-{{ $product->id }}">
+                                        <x-product-card :slug="$product->product_slug" />
+                                    </div>
+                                @endforeach
 
 
                                     {{-- Pagination --}}

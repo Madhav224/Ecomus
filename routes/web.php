@@ -40,6 +40,13 @@ use App\Http\Controllers\Frontend\FrontProductController;
 use App\Livewire\ProductList;
 use App\Livewire\ProductDetail;
 use App\Livewire\WishlistPage;
+use App\Livewire\CartPage;
+use App\Livewire\CheckoutPage;
+
+use App\Livewire\Account\ProfilePage;
+use App\Livewire\Account\OrderPage;
+use App\Livewire\Account\AddressPage;
+// use App\Livewire\CartButton;
 
 #===================================================================================================================
 #===================================================================================================================
@@ -49,21 +56,24 @@ use App\Livewire\WishlistPage;
 Route::prefix('user')->group(function () {
     Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('client.login');
     Route::post('/login', [UserAuthController::class, 'login'])->name('frontend.login');
-
     Route::get('/register', [UserAuthController::class, 'showRegisterForm'])->name('frontend.register.form');
     Route::post('/register', [UserAuthController::class, 'register'])->name('frontend.register');
-
     Route::post('/logout', [UserAuthController::class, 'logout'])->name('frontend.logout');
-
     // password reset routes
-Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-
-    Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
      Route::get('/wishlist', WishlistPage::class)->name('wishlist');
+     Route::get('/cart', function () {return view('frontend.cart');})->name('cart');
+     Route::get('/checkout', function () {return view('frontend.checkout'); })->name('checkout');
+});
+Route::middleware('auth')->group(function () {
+    Route::get('/account/profile', ProfilePage::class)->name('account.profile');
+    Route::get('/account/orders', OrderPage::class)->name('account.orders');
+    Route::get('/account/addresses', AddressPage::class)->name('account.addresses');
 });
 
 });
@@ -80,38 +90,31 @@ Route::get('/shop/{categorieslug?}', function ($categorieslug = null) {
 Route::get('/blog', [FrontBlogController::class, 'index'])->name('blog');
 
 
-// Route::get('/shop', [FrontShopController::class, 'index'])->name('shop');
+
 
 
 
 Route::get('/quick-view/{id}', [FrontShopController::class, 'quickView'])->name('quick.view');
 
-// Route::get('/product/{slug}', ProductDetail::class)->name('product.detail');
+
 Route::get('/product/{slug}', function ($slug) {
     return view('frontend.products.show', ['slug' => $slug]);
 })->name('product.detail');
 
-// Route::get('/product/{product_slug}', [FrontProductController::class, 'show'])->name('product.details');
+
 
 Route::get('/frontproduct', function () {
     return view('frontend.product');
 })->name('product');
 
 
-
-Route::get('/cart', function () {
-    return view('frontend.cart');
-})->name('cart');
-
-Route::get('/checkout', function () {
-    return view('frontend.checkout');
-})->name('checkout');
-
 Route::get('/about-us', function () {
     return view('frontend.about-us');
 })->name('about-us');
 
- 
+ Route::get('/terms-conditions', function () {
+    return view('frontend.terms-conditions');
+})->name('terms-conditions');
 
 Route::get('/contact', function () {
     return view('frontend.contact');
