@@ -112,19 +112,19 @@
                                     <div class="tf-collapse-content">
                                         <div class="footer-menu_item">Sign up to get first dibs on new arrivals, sales,
                                             exclusive content, events and more!</div>
-                                        <form class="form-newsletter" id="subscribe-form" action="#" method="post"
-                                            accept-charset="utf-8" data-mailchimp="true">
+                                        <form class="form-newsletter"  action="{{route('contact')}}" method="post"
+                                           >
                                             <div id="subscribe-content">
                                                 <fieldset class="email">
-                                                    <input type="email" name="email-form" id="subscribe-email"
+                                                    <input type="email" name="email-form" 
                                                         placeholder="Enter your email...." tabindex="0"
                                                         aria-required="true">
                                                 </fieldset>
                                                 <div class="button-submit">
-                                                    <button id="subscribe-button"
+                                                    <a href="{{route('contact')}}"
                                                         class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn"
                                                         type="button">Subscribe<i
-                                                            class="icon icon-arrow1-top-left"></i></button>
+                                                            class="icon icon-arrow1-top-left"></i></a>
                                                 </div>
                                             </div>
                                             <div id="subscribe-msg"></div>

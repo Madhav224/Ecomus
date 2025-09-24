@@ -91,7 +91,7 @@
                             </div>
                         </div>
                         <div class="widget-facet">
-                            <div class="facet-title" data-bs-target="#price" data-bs-toggle="collapse" aria-expanded="true"
+                            <div class="facet-title"  data-bs-toggle="collapse" aria-expanded="true"
                                 aria-controls="price">
                                 <span>Price</span>
                                 <span class="icon icon-arrow-up"></span>

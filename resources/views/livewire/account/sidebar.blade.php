@@ -21,7 +21,7 @@
     <li class="list-group-item">
         <form method="POST" action="{{ route('frontend.logout') }}">
             @csrf
-            <button type="submit" class="btn btn-link text-danger p-0 m-0">Logout</button>
+            <button type="submit" class="btn btn-link p-0 m-0"><i class="icon icon-logout"></i> Logout</button>
         </form>
     </li>
 </ul>

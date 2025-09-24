@@ -141,7 +141,7 @@
                        <div class="tab-pane active show" id="bestSeller" role="tabpanel">
                                 <div class="grid-layout loadmore-item" data-grid="grid-4">
                                     @foreach ($products as $product)
-                                    <div wire:loading.remove>
+                                    <div wire:loading.remove> 
                                         {{-- wire:target="loadProducts" --}}    
                                         <x-product-card :slug="$product?->product_slug" />
                                     </div>

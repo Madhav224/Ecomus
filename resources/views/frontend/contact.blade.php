@@ -70,7 +70,7 @@
                         us then drop us a line.</p>
                 </div>
                 <div>
-                    <form class="mw-705 mx-auto text-center form-contact" id="contactform"
+                    <form class="mw-705 mx-auto text-center form-contact"
                         action="" method="post">
                         <div class="d-flex gap-15 mb_15">
                             <fieldset class="w-100">
@@ -85,8 +85,8 @@
                                 rows="10"></textarea>
                         </div>
                         <div class="send-wrap">
-                            <button type="submit"
-                                class="tf-btn radius-3 btn-fill animate-hover-btn justify-content-center">Send</button>
+                            <a href="{{route('home')}}"
+                                class="tf-btn radius-3 btn-fill animate-hover-btn justify-content-center">Send</a>
                         </div>
                     </form>
                 </div>

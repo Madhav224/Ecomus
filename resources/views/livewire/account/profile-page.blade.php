@@ -21,10 +21,10 @@
                         <input type="text" wire:model="name" class="form-control">
                         @error('name') <span class="text-danger small">{{ $message }}</span> @enderror
                     </div>
-
+ 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" wire:model="email" class="form-control" readonly>
+                        <input type="email" wire:model="email" class="form-control" readonly style="background-color: #e9ecef;">
                     </div>
 
                     <div class="mb-3">
@@ -34,33 +34,17 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Gender</label>
-                            <select wire:model="gender" class="form-select">
-                                <option value="">Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Date of Birth</label>
-                            <input type="date" wire:model="dob" class="form-control">
-                        </div>
+                      
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Pincode</label>
-                        <input type="text" wire:model="pincode" class="form-control">
-                    </div>
+                   
 
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <button type="submit" class="btn btn-primary" >Update Profile</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 
 </div>
