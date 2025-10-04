@@ -69,6 +69,18 @@
     font-size: 0.9rem;
     font-weight: 500;
 }
+
+/* Only affect collapse toggle inside #categories */
+#categories .category-collapse-toggle .icon {
+    font-size: 8px;
+    transition: transform 0.3s ease;
+    display: inline-block; 
+}
+
+#categories .category-collapse-toggle[aria-expanded="true"] .icon {
+    transform: rotate(180deg);
+}
+
 </style>
 
 <livewire:product-list :categorieslug="$categorieslug" />

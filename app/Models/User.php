@@ -101,3 +101,4 @@ class User extends Authenticatable
         return asset(!empty($this->profile_image) && file_exists(public_path($this->profile_image)) ? $this->profile_image : 'upload/default.webp');
     }
 }
+   

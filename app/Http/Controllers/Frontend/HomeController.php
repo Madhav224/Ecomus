@@ -44,6 +44,8 @@ class HomeController extends Controller
     return view('frontend.home', compact('sliders', 'banners', 'categories', 'brands', 'products',));
     }
 
+    
+
     public function allCategories()
     {
         $categories = Categorie::with(['images' => function($query) {

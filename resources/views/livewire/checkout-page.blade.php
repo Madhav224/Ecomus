@@ -101,14 +101,22 @@
                                     </li>
                                 @endforeach
                         </ul>
-                            <div class="d-flex justify-content-between line pb_20 mt-3">
-                                <h6 class="fw-5">Subtotal</h6>
-                                <h6 class="fw-5">₹{{ number_format($subtotal, 2) }}</h6>
-                            </div>
-                            <div class="d-flex justify-content-between line pb_20">
-                                <h6 class="fw-5">Total</h6>
-                                <h6 class="fw-5">₹{{ number_format($total, 2) }}</h6>
-                            </div>
+                           <div class="d-flex justify-content-between line pb_20 mt-3">
+    <h6 class="fw-5">Subtotal</h6>
+    <h6 class="fw-5">₹{{ number_format($subtotal, 2) }}</h6>
+</div>
+
+@if($subtotal < 2000)
+    <div class="d-flex justify-content-between line pb_20">
+        <h6 class="fw-5">Shipping</h6>
+        <h6 class="fw-5">₹100.00</h6>
+    </div>
+@endif
+
+<div class="d-flex justify-content-between line pb_20">
+    <h6 class="fw-5">Total</h6>
+    <h6 class="fw-5">₹{{ number_format($total, 2) }}</h6>
+</div>
                     </div>
                 </div>
             </div>

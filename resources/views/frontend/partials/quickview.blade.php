@@ -178,8 +178,8 @@
                             </p>
                         </div>
                         <div>
-                            <img class="sizechart lazyload" data-src="{{asset('frontend/images/size_chart2.jpg')}}"
-                                src="{{asset('frontend/images/size_chart2.jpg')}}" alt="">
+                            {{-- <img class="sizechart lazyload" data-src="{{asset('frontend/images/size_chart2.jpg')}}"
+                                src="{{asset('frontend/images/size_chart2.jpg')}}" alt=""> --}}
                         </div>
                     </div>
                 </div>

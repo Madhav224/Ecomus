@@ -26,6 +26,7 @@ class CheckoutPage extends Component
     public function loadCart()
     {
         $this->subtotal = 0;
+        $shippingCharge = 0;
         $this->cart = Cart::with('child.product')->where('user_id', Auth::id())->first();
 
         if ($this->cart) {
@@ -34,7 +35,12 @@ class CheckoutPage extends Component
                 $child->total_price = $price * $child->qty;
                 $this->subtotal += $child->total_price;
             }
-            $this->total = $this->subtotal;
+             // ✅ Shipping rule
+        if ($this->subtotal < 2000) {
+            $shippingCharge = 100; // Example shipping fee
+        }
+
+        $this->total = $this->subtotal + $shippingCharge;
         }
     }
 

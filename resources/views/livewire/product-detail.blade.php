@@ -12,8 +12,8 @@
                             {{ $product->product_name ?? 'Product Detail' }}
                         </span>
                     </div>
-                    <div class="tf-breadcrumb-prev-next">
-                        <a href="#" class="tf-breadcrumb-prev hover-tooltip center">
+                    <div class="tf-breadcrumb-prev-next ">
+                        {{-- <a href="#" class="tf-breadcrumb-prev hover-tooltip center">
                             <i class="icon icon-arrow-left"></i>
                         </a>
                         <a href="#" class="tf-breadcrumb-back hover-tooltip center">
@@ -21,7 +21,8 @@
                         </a>
                         <a href="#" class="tf-breadcrumb-next hover-tooltip center">
                             <i class="icon icon-arrow-right"></i>
-                        </a>
+                        </a> --}}
+                        <livewire:wishlist-button :productId="$product->id" />
                     </div>
                 </div>
             </div>
@@ -35,7 +36,35 @@
                         <div class="col-md-6">
                             <div class="tf-product-media-wrap sticky-top">
                                 <div class="thumbs-slider">
+
+
+                                    <div dir="ltr" class="swiper tf-product-media-thumbs other-image-zoom d-none d-md-block"
+                                        data-direction="vertical">
+                                        <div class="swiper-wrapper stagger-wrap">
+                                             @php
+                                                $images = is_array($product->product_images)
+                                                    ? $product->product_images
+                                                    : (json_decode($product->product_images, true) ?? []);
+
+                                                // Convert to full URLs
+                                                $images = array_map(fn($img) => asset(ltrim($img, '/')), $images);
+                                            @endphp
+
+                                            @foreach($images as $image)
+                                                <div class="swiper-slide stagger-item" data-color="">
+                                                    <div class="item">
+                                                        <img class="lazyload" data-src="{{ $image }}" src="{{ $image }}" alt="{{ $product->product_name }}">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+
+                                        </div>
+                                    </div> 
+
+
                                     <div dir="ltr" class="swiper tf-product-media-main" id="gallery-swiper-started">
+                                        
                                         <div class="swiper-wrapper">
                                             @php
                                                 $images = is_array($product->product_images)
@@ -65,29 +94,7 @@
                                         <div class="swiper-button-next button-style-arrow thumbs-next"></div>
                                         <div class="swiper-button-prev button-style-arrow thumbs-prev"></div>
                                     </div>
-                                    <div dir="ltr" class="swiper tf-product-media-thumbs other-image-zoom d-none d-md-block"
-                                        data-direction="vertical">
-                                        <div class="swiper-wrapper stagger-wrap">
-                                             @php
-                                                $images = is_array($product->product_images)
-                                                    ? $product->product_images
-                                                    : (json_decode($product->product_images, true) ?? []);
-
-                                                // Convert to full URLs
-                                                $images = array_map(fn($img) => asset(ltrim($img, '/')), $images);
-                                            @endphp
-
-                                            @foreach($images as $image)
-                                                <div class="swiper-slide stagger-item" data-color="">
-                                                    <div class="item">
-                                                        <img class="lazyload" data-src="{{ $image }}" src="{{ $image }}" alt="{{ $product->product_name }}">
-                                                    </div>
-                                                </div>
-                                            @endforeach
-
-
-                                        </div>
-                                    </div>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -97,6 +104,7 @@
                                 <div class="tf-product-info-list other-image-zoom">
                                     <div class="tf-product-info-title">
                                         <h5>{{ $product->product_name }}</h5>
+                                        
                                     </div>
                                     <div class="tf-product-info-price">
                                         <div class="price-on-sale text_black">
@@ -208,17 +216,16 @@
                                     <div class="tf-product-info-buy-button">
                                         <form class="">
                                             <livewire:cart-button :product-id="$product->id" {{--:variant-id="$selectedVariantId"--}} />
-                                            <div 
-                                                class="tf-product-btn-wishlist">
+                                                <button href="#" class="btn btn-warning">Buy Now</button    >
+                                            <div class="tf-product-btn-wishlist">
                                                 <livewire:wishlist-button :productId="$product->id" />
-                                                
-                                                </div>
-                                            
-                                            <div class="w-100">
+                                            </div>
+                                              
+                                            {{-- <div class="w-100">
                                                 <a href="#" class="btns-full">Buy with <img
                                                         src="{{asset('frontend/images/payments/paypal.png')}}" alt=""></a>
                                                 <a href="#" class="payment-more-option">More payment options</a>
-                                            </div>
+                                            </div> --}}
                                         </form>
                                     </div>
                                     <div class="tf-product-info-extra-link">

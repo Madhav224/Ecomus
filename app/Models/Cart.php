@@ -15,7 +15,7 @@ class Cart extends Model
     protected $appends = [
         'subtotal',
         'total',
-        'discount',
+        'discount',    
     ];
 
     public function user()

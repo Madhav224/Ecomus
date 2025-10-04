@@ -12,12 +12,19 @@
     </a>
 @else
 {{-- Other Pages (Shop, Wishlist, etc.) --}}
-    {{-- <button 
-        wire:click="addToCart" 
+     {{-- <a 
+        href="{{ route('client.login') }}"
         class="box-icon bg-white shadow-md hover:bg-black hover:text-white border-0 !outline-none">
         <span class="icon icon-bag"></span>
         <span class="tooltip">Add to cart</span>
-    </button> --}}
+        </a>  --}}
+
+    <a href="javascript:void(0);" 
+       wire:click="addToCart" 
+       class="box-icon bg-white shadow-md hover:bg-black hover:text-white border-0 !outline-none">
+        <span class="icon icon-bag"></span>
+        <span class="tooltip">Add to cart</span>
+    </a>
     
 @endif
 </div>

@@ -17,7 +17,7 @@ class CartButton extends Component
     public function addToCart()
     {
         if (!Auth::check()) {
-            return redirect()->route('frontend.login.form'); // redirect if not logged in
+            return redirect()->route('frontend.login'); // redirect if not logged in
         }
 
         $cart = Cart::firstOrCreate(
@@ -41,6 +41,7 @@ class CartButton extends Component
             ]);
         }
 
+        
             // Dispatch event for JS/Alpine to handle cart icon/count update
                 $count = CartChild::where('cart_id', $cart->id)->sum('qty');
                 $this->dispatch('cart-updated', ['totalItems' => $count]);

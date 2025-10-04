@@ -181,6 +181,18 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- @php
+    $shippingCharge = 0;
+
+    // Example: Add ₹100 shipping if subtotal is less than 1000
+    if ($subtotal < 2000) {
+        $shippingCharge = 100;
+    }
+
+    $finalTotal = $total + $shippingCharge;
+@endphp --}}
+
                                 <div class="cart-checkbox">
                                     <input type="checkbox" class="tf-check" id="cart-gift-checkbox">
                                     <label for="cart-gift-checkbox" class="fw-4">
@@ -192,13 +204,21 @@
                                     <span class="total-value">₹{{ number_format($subtotal, 2) }}</span>
                                 </div>
 
+                                @if($subtotal < 2000)
+                                    <div class="tf-cart-totals-discounts">
+                                        <h3>Shipping</h3>
+                                        <span class="total-value">₹100.00</span>
+                                    </div>
+                                @endif
+
                                 <div class="tf-cart-totals-discounts">
                                     <h3>Total</h3>
                                     <span class="total-value">₹{{ number_format($total, 2) }}</span>
                                 </div>
 
+
                                 <p class="tf-cart-tax">
-                                    Taxes and <a href="shipping-delivery.html">shipping</a> calculated at checkout
+                                    Taxes and <a href="#">shipping</a> calculated at checkout
                                 </p>
                                 <div class="cart-checkbox">
                                     <input type="checkbox" class="tf-check" id="check-agree" required checked>

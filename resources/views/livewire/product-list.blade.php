@@ -57,10 +57,10 @@
                             </div>
 
                             <!-- Category list -->
-                            <div id="categories" class="collapse show">
+                            {{-- <div id="categories" class="collapse show">
                                 <ul class="list-categoris mb_36">
                                     @foreach($parent_categories as $parent_cate)
-                                        <li class="cate-item">
+                                         <li class="cate-item">
                                             <label for="cate{{ $parent_cate->id }}">
                                                 <input type="checkbox"
                                                     wire:model.live="filter.categories_ids"
@@ -70,25 +70,59 @@
                                             </label>
                                         </li>
                                     @endforeach
-                                   {{-- @foreach($parent_categories as  $parent_cate)
-                                        <li class="cate-item">
-                                             <label
-                                            data-item="{{ $parent_cate?->categorie_slug }}"
-                                            for="cate{{ $parent_cate?->categorie_slug . $parent_cate?->id }}">
-
-                                            
-                                                <input type="checkbox" wire:model="filter.categories_ids"
-                                                    value="{{ $parent_cate?->allCategoryIds() }}"
-                                                    name="categories_ids[]"
-                                                    id="cate{{ $parent_cate?->categorie_slug . $parent_cate?->id }}" >
-                                                {{ $parent_cate?->categorie_name }}
-                                            
-                                           
-                                        </label>
-                                        </li>
-                                    @endforeach --}}
+                            
                                 </ul>
-                            </div>
+                            </div> --}}
+                            <!-- Category list -->
+<div id="categories" class="collapse show">
+    <ul class="list-categoris mb_36">
+        @foreach($parent_categories as $parent_cate)
+            <li class="cate-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="cate{{ $parent_cate->id }}" class="mb-0">
+                        <input type="checkbox"
+                            wire:model.live="filter.categories_ids"
+                            value="{{ $parent_cate->id }}"
+                            id="cate{{ $parent_cate->id }}">
+                        {{ $parent_cate->categorie_name }}
+                    </label>
+
+                    @if($parent_cate->children->count())
+                        {{-- <button class="btn btn-sm" type="button" data-bs-toggle="collapse"  aria-expanded="true" 
+                            data-bs-target="#child-{{ $parent_cate->id }}" >
+                            <span class="icon icon-arrow-up"></span>
+                        </button> --}}
+                        <button type="button"
+        class="border-0 bg-transparent p-0 ms-2 category-collapse-toggle"
+        data-bs-toggle="collapse"
+        aria-expanded="false"
+        data-bs-target="#child-{{ $parent_cate->id }}">
+        <span class="icon icon-arrow-down"></span>
+    </button>
+                    @endif
+                </div>
+
+                
+                @if($parent_cate->children->count())
+                    <ul class="ms-3 collapse" id="child-{{ $parent_cate->id }}">
+                        @foreach($parent_cate->children as $child)
+                            <li class="cate-item">
+                                <label for="cate{{ $child->id }}">
+                                    <input type="checkbox"
+                                        wire:model.live="filter.categories_ids"
+                                        value="{{ $child->id }}"
+                                        id="cate{{ $child->id }}">
+                                    {{ $child->categorie_name }}
+                                </label>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </li>
+        @endforeach
+    </ul>
+</div>
+
                         </div>
                         <div class="widget-facet">
                             <div class="facet-title"  data-bs-toggle="collapse" aria-expanded="true"
@@ -200,66 +234,8 @@
                         </div>
 
                      
-                        <div class="widget-facet">
-                            <div class="facet-title" data-bs-target="#shipping" data-bs-toggle="collapse"
-                                aria-expanded="true" aria-controls="shipping">
-                                <span>Shipping & Delivery</span>
-                                <span class="icon icon-arrow-up"></span>
-                            </div>
-                            <div id="shipping" class="collapse show">
-                                <ul class="widget-iconbox-list mb_36">
-                                    <li class="iconbox-item">
-                                        
-                                        <div class="iconbox-content">
-                                            <h4 class="iconbox-title">Free shipping</h4>
-                                            <p class="iconbox-desc">Free iconbox for all US order</p>
-                                        </div>
-                                    </li>
-                                    <li class="iconbox-item">
-                                        
-                                        <div class="iconbox-content">
-                                            <h4 class="iconbox-title">Premium Support</h4>
-                                            <p class="iconbox-desc">Support 24 hours a day</p>
-                                        </div>
-                                    </li>
-                                    <li class="iconbox-item">
-                                        
-                                        <div class="iconbox-content">
-                                            <h4 class="iconbox-title">30 Days Return</h4>
-                                            <p class="iconbox-desc">You have 30 days to return</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div> 
-                        </div>
-                      
 
-                        <div class="widget-facet">
-                            <div class="facet-title" data-bs-target="#follow" data-bs-toggle="collapse"
-                                aria-expanded="true" aria-controls="follow">
-                                <span>Follow us</span>
-                                <span class="icon icon-arrow-up"></span>
-                            </div>
-                            <div id="follow" class="collapse show">
-                                <ul class="tf-top-bar_item tf-social-icon d-flex gap-10">
-                                    <li><a href="https://www.facebook.com" target="_blank" class="box-icon w_28 round social-facebook bg_line">
-                                        <i class="icon fs-12 icon-fb"></i>
-                                    </a></li>
-                                    <li><a href="https://twitter.com" target="_blank" class="box-icon w_28 round social-twiter bg_line">
-                                        <i class="icon fs-10 icon-Icon-x"></i>
-                                    </a></li>
-                                    <li><a href="https://www.instagram.com" target="_blank" class="box-icon w_28 round social-instagram bg_line">
-                                        <i class="icon fs-12 icon-instagram"></i>
-                                    </a></li>
-                                    <li><a href="https://www.tiktok.com" target="_blank" class="box-icon w_28 round social-tiktok bg_line">
-                                        <i class="icon fs-12 icon-tiktok"></i>
-                                    </a></li>
-                                    <li><a href="https://www.pinterest.com" target="_blank" class="box-icon w_28 round social-pinterest bg_line">
-                                        <i class="icon fs-12 icon-pinterest-1"></i>
-                                    </a></li>
-                                </ul>
-                            </div>
-                        </div>
+                    
                     </aside>
                     <div class="wrapper-control-shop tf-shop-content" >
                         <div class="meta-filter-shop">
@@ -269,19 +245,16 @@
                         </div>   <div class="tab-pane active show"  role="tabpanel">
                                 <div class="grid-layout loadmore-item mb_30" data-grid="grid-4">
                                  {{-- @foreach ($products as $product)
-                                    <div wire:loading.remove>
-                                       
-                                        <x-product-card :slug="$product?->product_slug" />
-                                            
+                                    <div wire:loading.remove>  
+                                        <x-product-card :slug="$product?->product_slug" />    
                                     </div>
-                
                                  @endforeach --}}
 
                                  @foreach ($products as $product)
                                     <div wire:key="product-{{ $product->id }}">
                                         <x-product-card :slug="$product->product_slug" />
                                     </div>
-                                @endforeach
+                                @endforeach   
 
 
                                     {{-- Pagination --}}

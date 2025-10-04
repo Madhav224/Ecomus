@@ -104,7 +104,7 @@ class ProductList extends Component
                         $query->orWhereJsonContains('product_categorie_id', (string) $categoryId);
                     }
                 });
-            })
+            })   
 
             // Sorting
             ->when($this->filter['sort_by'] ?? false, function ($query) {
@@ -147,7 +147,7 @@ class ProductList extends Component
             'parent_categories',
             'priceRange',
             'variant_size',
-            'variant_color',
+            'variant_color',  
             'products'
         ));
     }

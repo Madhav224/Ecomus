@@ -137,7 +137,9 @@ public function loadCart()
         ->where('user_id', Auth::id())
         ->first();
 
-    $this->subtotal = 0;
+       $this->subtotal = 0;
+    $shippingCharge = 0;
+
 
     if ($this->cart) {
         foreach ($this->cart->child as $child) {
@@ -193,9 +195,13 @@ public function loadCart()
             $this->images[$child->product->id] = array_values(array_unique($processed));
         }
     }
+      // ✅ Apply shipping rule
+    if ($this->subtotal < 2000) {
+        $shippingCharge = 100; // Example shipping fee
+    }
 
-    // For example, you can add taxes or shipping if needed
-    $this->total = $this->subtotal; 
+   // Save total with shipping included
+    $this->total = $this->subtotal + $shippingCharge;
 }
 
 

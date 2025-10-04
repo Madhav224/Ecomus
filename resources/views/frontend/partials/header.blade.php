@@ -167,9 +167,16 @@
                                 <li class="nav-account">
                                     @guest
                                         {{-- Guest: Show login modal trigger --}}
-                                        <a href="#login" data-bs-toggle="modal" class="nav-icon-item">
+                                        {{-- <a href="#login" data-bs-toggle="modal" class="nav-icon-item">
                                             <i class="icon icon-account"></i>
-                                        </a>
+                                        </a> --}}
+
+                                         @if (!Route::currentRouteNamed('client.login', 'frontend.register.form'))
+                                            {{-- Guest: Show login modal trigger --}}
+                                            <a href="#login" data-bs-toggle="modal" class="nav-icon-item">
+                                                <i class="icon icon-account"></i>
+                                            </a>
+                                        @endif
                                     @endguest
 
                                     @auth
@@ -211,19 +218,30 @@
                                 <li class="nav-wishlist">
                                     <a href="{{route('wishlist')}}" class="nav-icon-item">
                                         <i class="icon icon-heart"></i>
-                                        <span class="count-box" >
-                                             {{ auth()->check() ? \App\Models\Wishlist::where('user_id', auth()->id())->count() : 0 }}
-                                        </span>                                    
-                                    </a> 
-                             
-                                </li>
-                                <li class="nav-cart d-none d-md-flex"><a href="{{route('cart')}}" 
-                                        class="nav-icon-item"><i class="icon icon-bag"></i>
-                                       <span class="count-box">
-                                            {{ auth()->check() ? auth()->user()->cart?->child->sum('qty') ?? 0 : 0 }}
-                                        </span>
-                                        </a></li>
+                                         @php
+                                            $wishlistCount = auth()->check() ? \App\Models\Wishlist::where('user_id', auth()->id())->count() : 0;
+                                         @endphp
 
+                                        @if($wishlistCount > 0)
+                                            <span class="count-box">{{ $wishlistCount }}</span>
+                                        @endif                                  
+                                    </a> 
+                               
+                                </li>
+                                <li class="nav-cart d-none d-md-flex">
+                                    <a href="{{route('cart')}}" 
+                                        class="nav-icon-item"><i class="icon icon-bag"></i> 
+        
+                                        @php
+                                            $cartCount = auth()->check() ? auth()->user()->cart?->child->sum('qty') ?? 0 : 0;
+                                        @endphp
+
+                                        @if($cartCount > 0)
+                                            <span class="count-box">{{ $cartCount }}</span>
+                                        @endif
+                                    </a>
+                                </li>
+  
                             </ul>
                         </div>
                     </div>
@@ -238,11 +256,12 @@
                                     <a href="{{ route('home') }}" class="item-link">Home</a>
                                     
                                 </li>
-                                <li class="menu-item">
+                                {{-- <li class="menu-item">
                                     <a href="{{route('shop')}}" class="item-link">Shop</a>
                                     
-                                </li>
-                                <li class="menu-item">
+                                </li> --}}
+                                <x-header-menu />
+                                {{-- <li class="menu-item">
                                     <a href="{{route('ourstore')}}" class="item-link">Our Store</a>
                                     
                                 </li>
@@ -254,57 +273,8 @@
                                                 <a href="{{route('about-us')}}" class="menu-link-text link text_black-2">About
                                                     us</a>
                                             </li>
-                                            <li >
-                                                <a href="{{route('contact')}}" class="menu-link-text link text_black-2">Contact</a>
-                                            </li>
-                                            <li >
-                                                <a href="{{route('faq')}}" class="menu-link-text link text_black-2">FAQ</a>
-                                               
-                                            </li>
-                                            <li>
-                                                <a href="{{route('ourstore')}}" class="menu-link-text link text_black-2">Our Store</a>
-                                               
-                                            </li>
-                                            <li><a href="{{route('timeline')}}"
-                                                    class="menu-link-text link text_black-2 position-relative">Timeline
-                                                    {{-- <div class="demo-label"><span class="demo-new">New</span></div> --}}
-                                                </a>
-                                            </li>
-                                            <li><a href="{{route('cart')  }}"
-                                                    class="menu-link-text link text_black-2 position-relative">View
-                                                    cart</a></li>
-                                            <li><a href="{{route('checkout')}}"
-                                                    class="menu-link-text link text_black-2 position-relative">Check
-                                                     out</a></li>
+                                            
                                            
-                                            {{-- <li class="menu-item-2">
-                                                <a href="#" class="menu-link-text link text_black-2">My account</a>
-                                                <div class="sub-menu submenu-default">
-                                                    <ul class="menu-list">
-                                                        <li><a href="my-account.html"
-                                                                class="menu-link-text link text_black-2">My account</a>
-                                                        </li>
-                                                        <li><a href="my-account-orders.html"
-                                                                class="menu-link-text link text_black-2">My order</a>
-                                                        </li>
-                                                        <li><a href="my-account-orders-details.html"
-                                                                class="menu-link-text link text_black-2">My order
-                                                                details</a></li>
-                                                        <li><a href="my-account-address.html"
-                                                                class="menu-link-text link text_black-2">My address</a>
-                                                        </li>
-                                                        <li><a href="my-account-edit.html"
-                                                                class="menu-link-text link text_black-2">My account
-                                                                details</a></li>
-                                                        <li><a href="my-account-wishlist.html"
-                                                                class="menu-link-text link text_black-2">My wishlist</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li> --}}
-                                            {{-- <li><a href="invoice.html"
-                                                    class="menu-link-text link text_black-2 position-relative">Invoice</a>
-                                            </li> --}}
                                           
                                         </ul>
                                     </div>
@@ -312,7 +282,7 @@
                                 <li class="menu-item position-relative">
                                     <a href="{{route('blog')}}" class="item-link">Blog</a>
                                     
-                                </li>
+                                </li> --}}
                               
                             </ul>
                         </nav>
@@ -664,8 +634,8 @@
                             </p>
                         </div>
                         <div>
-                            <img class="sizechart lazyload" data-src="{{asset('frontend/images/shop/products/size_chart2.jpg')}}"
-                                src="{{asset('frontend/images/shop/products/size_chart2.jpg')}}" alt="">
+                            {{-- <img class="sizechart lazyload" data-src="{{asset('frontend/images/shop/products/size_chart2.jpg')}}"
+                                src="{{asset('frontend/images/shop/products/size_chart2.jpg')}}" alt=""> --}}
                         </div>
                     </div>
                 </div>
